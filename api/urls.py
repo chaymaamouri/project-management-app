@@ -20,5 +20,14 @@ urlpatterns = [
     path("todos/<user_id>", views.TodoListView.as_view()),
     path("todo-detail/<user_id>/<todo_id>/", views.TodoDetailView.as_view()),
     path("todo-mark-as-completed/<user_id>/<todo_id>/", views.TodoMarkAsCompleted.as_view()),
-    path('todo-update/<int:user_id>/<int:todo_id>/', views.TodoUpdateView.as_view(), name='todo-update'), 
+    path('todo-update/<int:user_id>/<int:todo_id>/', views.TodoUpdateView.as_view(), name='todo-update'),
+    path('todo/<int:todo_id>', views.update_todo, name='update_todo'),
+ 
+    
+    #project URLS  '/api/projects/', # Endpoint pour obtenir tous les projets ou ajouter un nouveau projet
+
+    path('create_project/', views.create_project)
+    # path('api/projects/<int:project_id>/tasks/', views.project_tasks, name='project_tasks'),
+    # path('api/projects/<int:project_id>/share/', views.share_project, name='share_project'),
+    
 ]

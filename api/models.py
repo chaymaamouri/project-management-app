@@ -34,10 +34,12 @@ post_save.connect(save_user_profile, sender=User)
 
 
 class Todo(models.Model):
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=1000)
     completed = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField(null=True, blank=True)  # Champ pour le délai
 
     def __str__(self):
         return self.title[:30]
@@ -45,8 +47,21 @@ class Todo(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_projects')
-    team = models.ManyToManyField(User, related_name='team_projects')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    shared_with = models.ManyToManyField(User, related_name='shared_projects', blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class Team(models.Model):
+    name = models.CharField(max_length=100)
+    members = models.ManyToManyField(User, related_name='teams')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name

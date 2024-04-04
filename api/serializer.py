@@ -1,4 +1,4 @@
-from api.models import User, Todo
+from api.models import Project, User, Todo,Team
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
@@ -59,4 +59,20 @@ class TodoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Todo
-        fields = ['id', 'user', 'title', 'completed','date']
+        fields = ['id', 'user', 'title', 'completed','date','deadline']
+def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.deadline = validated_data.get('deadline', instance.deadline)
+        instance.save()
+        return instance
+        
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = '__all__'
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = '__all__'
